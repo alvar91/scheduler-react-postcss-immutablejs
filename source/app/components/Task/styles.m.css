@@ -1,0 +1,79 @@
+@import '../../theme/breakpoints';
+
+.task {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 61px;
+    margin-bottom: 13px;
+    padding: 0 20px;
+    background-color: var(--paletteColor2);
+    border-radius: 5px;
+    box-shadow: 6px 6px 14px var(--rgbaColor1);
+    font-size: 20px;
+    font-weight: 400;
+
+    & svg {
+        cursor: pointer;
+    }
+
+    & .content {
+        display: flex;
+        align-items: center;
+        width: 85%;
+
+        & .toggleTaskCompletedState {
+            margin-right: 20px;
+        }
+
+        & span {
+            display: flex;
+            align-items: center;
+            margin-right: 1.9rem;
+        }
+
+        & input[type='text'] {
+            width: 100%;
+            border-color: transparent;
+
+            &:not([disabled]) {
+                border-color: var(--paletteColor3);
+            }
+        }
+    }
+
+    & .actions {
+        min-width: 100px;
+
+        & .toggleTaskFavoriteState,
+        & .updateTaskMessageOnClick {
+            margin-right: 20px;
+        }
+    }
+
+    @media (width <= 740px) {
+        padding: 10px 5px;
+        height: auto;
+
+        & .content {
+            width: 95%;
+        }
+
+        & .actions {
+            margin-bottom: 7px;
+            align-self: flex-end;
+        }
+    }
+}
+
+.completed {
+    background-color: var(--paletteColor8);
+    color: var(--paletteColor9);
+
+    & .content {
+        & input[type='text'] {
+            background-color: var(--paletteColor8);
+        }
+    }
+}

@@ -1,0 +1,11 @@
+---
+extends:
+    - '@lectrum/eslint-config-core'
+
+parserOptions:
+    sourceType: 'module'
+    ecmaFeatures:
+        legacyDecorators: true
+
+rules:
+    no-console: 0

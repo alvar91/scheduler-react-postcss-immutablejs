@@ -1,0 +1,193 @@
+@import '../../theme/palette';
+@import '../../theme/breakpoints';
+
+.scheduler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 4%;
+    user-select: none;
+    min-height: 100vh;
+
+    & main {
+        width: 100%;
+        max-width: 950px;
+        height: 100%;
+        padding: 50px 85px;
+        background-color: var(--paletteColor4);
+        border-radius: 10px;
+        box-shadow: 6px 6px 14px var(--rgbaColor2);
+
+        & header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 45px;
+
+            & h1 {
+                font-size: 32px;
+                font-weight: 700;
+                color: var(--paletteColor5);
+            }
+
+            & input {
+                width: 215px;
+                height: 42px !important;
+                background-image: url('../../theme/assets/search-icon.svg');
+                background-repeat: no-repeat;
+                background-size: 18px 18px;
+                background-position: 95% 50%;
+            }
+        }
+
+        & input {
+            -webkit-appearance: none; /* ← Этот хак нужен сафари для работы (проблема со свойством height)... */
+            height: 42px;
+            padding: 0 14px;
+            caret-color: var(--paletteColor3);
+            border-radius: 5px;
+            border: 1px solid var(--paletteColor6);
+            outline: none;
+            transition: border-color 0.1s ease-in-out;
+            background-color: var(--paletteColor2);
+            font-size: 20px;
+            text-overflow: ellipsis;
+
+            &::placeholder {
+                font-size: 20px;
+                transition: color 0.1s ease-in-out;
+                color: var(--paletteColor6);
+            }
+
+            &:focus {
+                border-color: var(--paletteColor3);
+
+                &::placeholder {
+                    color: transparent;
+                }
+            }
+        }
+
+        & section {
+            margin-bottom: 31px;
+
+            & form {
+                display: flex;
+                justify-content: space-between;
+                margin: 0 0 13px;
+
+                & input[type='text'] {
+                    width: 100%;
+                    margin-right: 22px;
+                }
+
+                & button {
+                    min-width: 215px;
+                    height: 42px;
+                    border-radius: 5px;
+                    background-color: var(--paletteColor3);
+                    font-size: 18px;
+                    padding-left: 25px;
+                    color: var(--paletteColor2);
+                    border: 0;
+                    cursor: pointer;
+                    background-image: url('../../theme/assets/plus-icon.svg');
+                    background-repeat: no-repeat;
+                    background-size: 18px 18px;
+                    background-position: 6% 50%;
+                    transition: background-color 0.3s ease-in-out;
+
+                    &:hover {
+                        background-color: var(--paletteColor11);
+                    }
+                }
+            }
+
+            & ul {
+                min-height: 370px;
+                max-height: 370px;
+                overflow: scroll;
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+            }
+        }
+
+        & footer {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            & div {
+                margin: 0 20px;
+                cursor: pointer;
+            }
+
+            & .completeAllTasks {
+                font-size: 20px;
+                color: var(--paletteColor7);
+            }
+        }
+    }
+
+    @media (width <= 840px) {
+        padding: 7px;
+
+        & main {
+            padding: 7px;
+
+            & header {
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                & h1 {
+                    margin-bottom: 15px;
+                    font-size: 35px;
+                    text-align: center;
+                }
+
+                & input {
+                    width: 100%;
+                }
+            }
+
+            & section {
+                margin-bottom: 31px;
+
+                & form {
+                    display: flex;
+                    flex-direction: column;
+                    margin: 0 0 13px;
+
+                    & input[type='text'] {
+                        width: 100%;
+                        margin-bottom: 12px;
+                    }
+
+                    & button {
+                        margin-bottom: 12px;
+                    }
+                }
+            }
+
+            & footer {
+                margin-bottom: 14px;
+
+                & .completeAllTasks {
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+
+    @media (width <= 380px) {
+        & main {
+            & header {
+                & h1 {
+                    font-size: 28px;
+                }
+            }
+        }
+    }
+}
