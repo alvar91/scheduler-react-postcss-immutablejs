@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 import Move from 'react-flip-move';
 import { hot } from 'react-hot-loader';
 import { v4 } from 'uuid';
+import { fromJS, Map } from "immutable";
 
 // Instruments
 import Styles from './styles.m.css';
 import Checkbox from '../../theme/assets/Checkbox';
 import initialTasksData from './tasks.json';
+import { sortTasksByGroup } from "../../instruments";
 
 // Components
 import { Task } from '../Task';
@@ -17,7 +19,7 @@ export class Scheduler extends Component {
     state = {
         newTaskMessage: '',
         tasksFilter:    '',
-        tasks:          initialTasksData,
+        tasks:          fromJS(initialTasksData),
     };
 
     _updateTasksFilter = (event) => {
@@ -32,7 +34,7 @@ export class Scheduler extends Component {
         });
     };
 
-    _getAllCompleted = () => this.state.tasks.every((task) => task.completed);
+    _getAllCompleted = () => this.state.tasks.every((task) => task.get("completed"));
 
     _createTask = (event) => {
         event.preventDefault();
@@ -42,23 +44,23 @@ export class Scheduler extends Component {
             return null;
         }
 
-        const newTask = {
+        const newTask = Map({
             id:        v4(),
             completed: false,
             favorite:  false,
             message:   newTaskMessage,
-        };
+        });
 
         this.setState(({ tasks }) => ({
-            tasks:          [ newTask, ...tasks ],
+            tasks:          sortTasksByGroup(tasks.unshift(newTask)),
             newTaskMessage: '',
         }));
     };
 
     _updateTask = (updatedTask) => {
         this.setState(({ tasks }) => {
-            const indexToReplace = tasks.indexOf(
-                tasks.find((task) => task.id === updatedTask.id),
+            const indexToReplace = tasks.findIndex(
+                (task) => task.get("id") === updatedTask.id,
             );
 
             const newTasks = [ ...tasks.filter((task) => task.id !== updatedTask.id) ];
@@ -66,14 +68,14 @@ export class Scheduler extends Component {
             newTasks.splice(indexToReplace, 0, updatedTask);
 
             return {
-                tasks: newTasks,
+                tasks: sortTasksByGroup(tasks.update(indexToReplace, () => Map(updatedTask))),
             };
         });
     };
 
     _removeTask = (taskId) => {
         this.setState(({ tasks }) => ({
-            tasks: tasks.filter((task) => task.id !== taskId),
+            tasks: tasks.filter((task) => task.get("id") !== taskId),
         }));
     };
 
@@ -83,7 +85,7 @@ export class Scheduler extends Component {
         }
 
         this.setState(({ tasks }) => ({
-            tasks: tasks.map((task) => ({ ...task, completed: true })),
+            tasks: tasks.map((task) => task.set("completed", true)),
         }));
     };
 
@@ -92,12 +94,16 @@ export class Scheduler extends Component {
 
         const allCompleted = this._getAllCompleted();
         const todoList = tasks
-            .filter((task) => task.message.toLowerCase().includes(tasksFilter))
+            .filter((task) => task.get("message").toLowerCase().includes(tasksFilter))
             .map((task) => (
                 <Task
                     _removeTask = { this._removeTask }
                     _updateTask = { this._updateTask }
-                    key = { task.id }
+                    key = { task.get("id") }
+                    id = { task.get("id") }
+                    message = { task.get("message") }
+                    completed = { task.get("completed") }
+                    favorite = { task.get("favorite") }                      
                     { ...task }
                 />
             ));
