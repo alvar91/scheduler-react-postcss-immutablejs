@@ -1,11 +1,5 @@
 [
     {
-        "id": "xjh",
-        "message": "🎓 Успешно пройти React-интенсив компании Lectrum",
-        "completed": false,
-        "favorite": true
-    },
-    {
         "id": "xjr",
         "message": "🕶 Взять автограф у Джареда Лето",
         "completed": false,
